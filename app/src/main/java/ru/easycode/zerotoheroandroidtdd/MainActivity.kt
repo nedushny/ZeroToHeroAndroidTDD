@@ -13,19 +13,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
 
-    private val viewModelFactory by lazy {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-                    return MainViewModel(
-                        liveDataWrapper = LiveDataWrapper.Base(),
-                        repository = Repository.Base()
-                    ) as T
-                }
-                return super.create(modelClass)
-            }
-        }
-    }
+    private val viewModelFactory by lazy { ViewModelFactory() }
+
 
     private lateinit var progress: ProgressBar
     private lateinit var button: Button
@@ -41,24 +30,12 @@ class MainActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
 
-
         button.setOnClickListener {
             viewModel.load()
         }
-        viewModel.liveData.observe(this) { state ->
-            when (state) {
-                is UiState.ShowProgress -> {
-                    button.isEnabled = false
-                    progress.isVisible = true
-                }
-                is UiState.ShowData -> {
-                    progress.isVisible = false
-                    button.isEnabled = true
-                    textView.isVisible = true
-                }
-            }
+
+        viewModel.liveData.observe(this) { uiState ->
+            uiState.apply(textView, progress, button)
         }
-
-
     }
 }
