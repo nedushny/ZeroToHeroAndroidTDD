@@ -23,7 +23,7 @@ interface UiState : Serializable {
 
     object ShowProgress : Abstract(false, true)
 
-    data class ShowData(val text: String) : Abstract(true, false) {
+    data class ShowData(private val text: String) : Abstract(true, false) {
         override fun apply(binding: ActivityMainBinding) {
             super.apply(binding)
             binding.titleTextView.isVisible = true
