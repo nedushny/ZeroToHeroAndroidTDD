@@ -17,10 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.actionButton.setOnClickListener {
             val text = binding.inputEditText.text.toString()
-
-            val textView = TextView(this)
-            textView.text = text
-            binding.contentLayout.addView(textView)
+            addTextView(text)
             binding.inputEditText.setText("")
         }
     }
@@ -37,12 +34,15 @@ class MainActivity : AppCompatActivity() {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedInstanceState.getStringArrayList(KEY)?.let { list ->
-            list.forEach { text ->
-                val textView = TextView(this)
-                textView.text = text
-                binding.contentLayout.addView(textView)
-            }
+            list.forEach { text -> addTextView(text) }
         }
+    }
+
+    private fun addTextView(inputText: String) {
+        val textView = TextView(this)
+        textView.text = inputText
+        binding.contentLayout.addView(textView)
+
     }
 
     companion object {
