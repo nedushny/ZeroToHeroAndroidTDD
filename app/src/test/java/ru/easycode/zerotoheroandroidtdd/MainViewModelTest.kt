@@ -28,7 +28,7 @@ class MainViewModelTest {
         val bundleWrapperSave: BundleWrapper.Save = bundleWrapper
         val bundleWrapperRestore: BundleWrapper.Restore = bundleWrapper
 
-        viewModel.save(bundle = bundleWrapperSave)
+        viewModel.save(bundleWrapper = bundleWrapperSave)
 
         init()
 
