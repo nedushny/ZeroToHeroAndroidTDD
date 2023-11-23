@@ -11,9 +11,10 @@ class SimpleTextAdapter : RecyclerView.Adapter<ViewHolder>() {
     private val itemList = arrayListOf<CharSequence>()
 
     fun update(newList: List<CharSequence>) {
+        val result = DiffUtil.calculateDiff(DiffUtilCallback(itemList, newList))
         itemList.clear()
         itemList.addAll(newList)
-        notifyDataSetChanged()
+        result.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
